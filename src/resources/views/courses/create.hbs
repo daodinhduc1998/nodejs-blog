@@ -1,4 +1,25 @@
 <div class="mt-4 mb-4">
     <h3>Tạo khóa học</h3>
-    
+    <form method="POST" action="/courses/store">
+        <div class="input-group mb-3">
+            <span class="input-group-text">Name</span>
+            <input  id="name" name="name" type="text" class="form-control" placeholder="name" aria-label="name">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text">Description</span>
+            <input id="des" name="des" type="text" class="form-control" placeholder="description" aria-label="description">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text">Image</span>
+            <input id="img" name="img" type="text" class="form-control" placeholder="image" aria-label="image">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text">Video ID</span>
+            <input id="videoId" name="videoId" type="text" class="form-control" placeholder="Video ID" aria-label="Video ID">
+        </div>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Add</button>
+        </div>
+    </form>
+
 </div>
