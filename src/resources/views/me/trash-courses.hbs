@@ -1,0 +1,89 @@
+<div class="mt-4">
+    <h1>Khóa học đã xóa</h1>
+    <h5><a href="/me/stored/courses"> Danh sách khóa học</a></h5>
+    <table class="table table-sm" style="word-wrap:break-word">
+    <thead>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Image</th>
+        <th scope="col">Vid</th>
+        <th scope="col">Des</th>
+        <th scope="col" colspan="2">...</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each courses}}
+        <tr>
+        <th scope="row">{{sum @index 1}}</th>
+        <td>{{this.name}}</td>
+        <td>{{this.img}}</td>
+        <td>{{this.videoId}}</td>
+        <td>{{this.des}}</td>
+        <td>
+            <a href="" class="link-warning btn-restore" data-id="{{this._id}}">Khôi phục</a>
+        </td>
+        <td><a href="" data-id="{{this._id}}" data-bs-toggle="modal" data-bs-target="#delete-courses" class="link-danger">Xóa vĩnh viễn</a></td>
+        </tr>
+        {{else}}
+        <tr>
+          <td colspan="5" class="text-center">
+            Thùng rác trống
+          </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+</div>
+
+<div class="modal fade" id="delete-courses" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-delete-courses" class="btn btn-danger">Xóa</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<form method="POST" name="delete-course-form"></form>
+<form method="POST" name="restore-course-form"></form>
+
+<script>
+    document.addEventListener('DOMContentLoaded',function(){
+        var coursesId;
+        var deleteForm = document.forms['delete-course-form'];
+        var restoreForm = document.forms['restore-course-form'];
+        var restoreBtn = $('.btn-restore');
+        document.getElementById('delete-courses').addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            coursesId = button.getAttribute('data-id');
+        })
+
+        document.getElementById('btn-delete-courses').addEventListener('click',function(){
+            deleteForm.action ='/courses/' + coursesId + '?_method=DELETE';
+            deleteForm.submit();
+        })
+
+        document.getElementById('btn-delete-courses').addEventListener('click',function(){
+            deleteForm.action ='/courses/' + coursesId + '/force?_method=DELETE';
+            deleteForm.submit();
+        })
+
+        restoreBtn.click(function(event){
+          event.preventDefault();
+          var coursesId = $(this).data('id');
+          restoreForm.action='/courses/' + coursesId + '/restore?_method=PATCH';
+          restoreForm.submit();
+        })
+    })
+</script>

@@ -4,7 +4,8 @@ async function connect() {
     try {
         await mongoose.connect('mongodb://localhost:27017/nodejs_example_dev', {
             useNewUrlParser: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
+            useCreateIndex: true
         });
         console.log('Connected !!!')
     } catch (error) {
