@@ -3,6 +3,7 @@ var router = express.Router();
 
 const courseController = require('../app/controllers/CourseController');
 
+router.post('/form-action', courseController.actionForm)
 router.delete('/:id', courseController.delete);
 router.delete('/:id/force', courseController.forceDelete);
 router.get('/:id/edit', courseController.edit);

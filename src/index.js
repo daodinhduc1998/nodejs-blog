@@ -3,8 +3,10 @@ const express = require('express');
 const morgan = require('morgan');
 var methodOverride = require('method-override');
 const exphbs = require('express-handlebars');
-const app = express();
+const SortMiddleware = require('./app/middleware/SortMiddleware');
 
+
+const app = express();
 const port = 3000;
 
 const route = require('./routes');
@@ -20,7 +22,8 @@ app.use(
 );
 app.use(express.json());
 app.use(methodOverride('_method'))
-    //HTTP loger
+app.use(SortMiddleware);
+//HTTP loger
 app.use(morgan('tiny'));
 //Template engine
 app.engine(
@@ -29,6 +32,23 @@ app.engine(
         extname: 'hbs',
         helpers: {
             sum: (a, b) => a + b,
+            sortable: (field, sort) => {
+                const sortType = field === sort.column ? sort.type : 'default';
+                const icons = {
+                    default: 'fas fa-sort',
+                    asc: 'fas fa-sort-amount-down-alt',
+                    desc: 'fas fa-sort-amount-down'
+                }
+                const types = {
+                    default: 'desc',
+                    asc: 'desc',
+                    desc: 'asc'
+                }
+                const icon = icons[sortType];
+                const type = types[sortType];
+
+                return `<a href="?_sort&column=${field}&type=${type}"><i class="${icon}"></i></a>`;
+            }
         }
     }),
 );
